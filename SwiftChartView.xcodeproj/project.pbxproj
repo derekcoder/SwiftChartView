@@ -15,6 +15,8 @@
 		65AB21D51FA96A3400BF05BC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65AB21D31FA96A3400BF05BC /* LaunchScreen.storyboard */; };
 		65AB21DA1FA96A3F00BF05BC /* SwiftChartView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65AB21B91FA969EC00BF05BC /* SwiftChartView.framework */; };
 		65AB21DB1FA96A3F00BF05BC /* SwiftChartView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 65AB21B91FA969EC00BF05BC /* SwiftChartView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		65AB21E21FA96B0A00BF05BC /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AB21E11FA96B0A00BF05BC /* ChartView.swift */; };
+		65AB21E41FA96B4000BF05BC /* LineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AB21E31FA96B4000BF05BC /* LineChartView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +54,8 @@
 		65AB21D11FA96A3400BF05BC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		65AB21D41FA96A3400BF05BC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		65AB21D61FA96A3400BF05BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		65AB21E11FA96B0A00BF05BC /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
+		65AB21E31FA96B4000BF05BC /* LineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +119,8 @@
 		65AB21DF1FA96A8E00BF05BC /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				65AB21E11FA96B0A00BF05BC /* ChartView.swift */,
+				65AB21E31FA96B4000BF05BC /* LineChartView.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -192,6 +198,7 @@
 				TargetAttributes = {
 					65AB21B81FA969EC00BF05BC = {
 						CreatedOnToolsVersion = 9.1;
+						LastSwiftMigration = 0910;
 						ProvisioningStyle = Automatic;
 					};
 					65AB21C71FA96A3400BF05BC = {
@@ -244,6 +251,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65AB21E21FA96B0A00BF05BC /* ChartView.swift in Sources */,
+				65AB21E41FA96B4000BF05BC /* LineChartView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -402,6 +411,7 @@
 		65AB21C21FA969EC00BF05BC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -415,6 +425,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.derekcoder.SwiftChartView;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -423,6 +434,7 @@
 		65AB21C31FA969EC00BF05BC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -444,6 +456,7 @@
 		65AB21D81FA96A3400BF05BC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 73DV6R4Q82;
@@ -459,6 +472,7 @@
 		65AB21D91FA96A3400BF05BC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 73DV6R4Q82;
