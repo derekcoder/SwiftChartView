@@ -54,7 +54,7 @@ public class LineChartView: ChartView {
     
     // MARK: - Draw
     private var xLabelsCount: Int { return xLabels.count }
-    private var yLabelsCount: Int { return yDatas.count }
+    private var yLabelsCount: Int { return Int(yDatas.max() ?? 0.0) }
     private var xAxisWidth: CGFloat { return bounds.size.width - yAxisOffsets }
     private var yAxisHeight: CGFloat { return bounds.size.height - xAxisOffsets }
     private var origin: CGPoint { return CGPoint(x: yAxisOffsets, y: yAxisHeight) }
@@ -114,8 +114,14 @@ public class LineChartView: ChartView {
     public func drawChart() {
         setNeedsDisplay()
         
-        // draw labels
+        // Draw labels
+        drawLabels()
         
+        // Draw datas
+        drawDatas()
+    }
+    
+    private func drawLabels() {
         // x
         let xLabelFont = UIFont.systemFont(ofSize: 12.0)
         for (i, label) in xLabels.enumerated() {
@@ -127,13 +133,37 @@ public class LineChartView: ChartView {
         
         // y
         let yLabelFont = UIFont.systemFont(ofSize: 12.0)
-        let yLabels = self.yLabels ?? yDatas.map { return "\($0)" }
-        for (i, label) in yLabels.enumerated() {
+        for i in 0 ..< yLabelsCount {
+            let label = "\(Double(i+1))"
             let stepPoint = CGPoint(x: origin.x, y: origin.y - CGFloat(i+1) * yStepLength)
             let size = label.size(inFont: yLabelFont)
             let rect = CGRect(x: stepPoint.x - size.width - 2, y: stepPoint.y - size.height / 2, width: size.width, height: size.height)
             drawText(label, in: rect, with: yLabelFont, alignment: .center)
         }
+    }
+    
+    private var chartLineLayer: CAShapeLayer!
+    private var chartPointLayer: CAShapeLayer!
+    private func drawDatas() {
+        let chartLinePath = drawChartLine()
+        chartLinePath.stroke()
+    }
+    
+    private func drawChartLine() -> UIBezierPath {
+        let path = UIBezierPath()
+        
+        guard yDatas.count > 0 else { return path }
+        
+        let firstData = yDatas[0]
+        let firstPoint = CGPoint(x: origin.x + CGFloat(1) * xStepLength, y: origin.y - CGFloat(firstData) * yStepLength)
+        path.move(to: firstPoint)
+        
+        for i in 1 ..< yDatas.count {
+            let point = CGPoint(x: origin.x + CGFloat(i+1) * xStepLength, y: origin.y - CGFloat(yDatas[i]) * yStepLength)
+            path.addLine(to: point)
+        }
+        
+        return path
     }
 }
 
