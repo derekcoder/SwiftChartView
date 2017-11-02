@@ -9,6 +9,13 @@
 import UIKit
 import QuartzCore
 
+public enum PointStyle {
+    case none
+    case circle
+    case square
+    case triangle
+}
+
 @IBDesignable
 public class LineChartView: ChartView {
     public var xLabels: [String] = ["Jan", "Feb", "Mar"] {
@@ -52,9 +59,20 @@ public class LineChartView: ChartView {
         }
     }
     
+    // MARK: - Line Attributes
+    @IBInspectable
+    public var lineWidth: CGFloat = 3
+    public var lineCapStyle: CGLineCap = .round
+    @IBInspectable
+    public var lineColor: UIColor = .lightGray
+    
+    // MARK: - y Axis Attributes
+    private var maxData: Double { return ceil(yDatas.max() ?? 0.0) }
+    private var minData: Double { return 1.0 }
+    private var yLabelsCount: Int = 5
+    
     // MARK: - Draw
     private var xLabelsCount: Int { return xLabels.count }
-    private var yLabelsCount: Int { return Int(yDatas.max() ?? 0.0) }
     private var xAxisWidth: CGFloat { return bounds.size.width - yAxisOffsets }
     private var yAxisHeight: CGFloat { return bounds.size.height - xAxisOffsets }
     private var origin: CGPoint { return CGPoint(x: yAxisOffsets, y: yAxisHeight) }
@@ -63,7 +81,9 @@ public class LineChartView: ChartView {
     
     public override func draw(_ rect: CGRect) {
         drawAxis()
-        drawChart()
+        
+        drawLabels()
+        drawChartLine().stroke()
     }
     
     private func drawAxis() {
@@ -94,7 +114,7 @@ public class LineChartView: ChartView {
         // Draw step
         let stepLength: CGFloat = 2
 
-        // y
+        // y        
         for i in 0 ..< yLabelsCount {
             path.move(to: CGPoint(x: origin.x, y: origin.y - CGFloat(i+1) * yStepLength))
             path.addLine(to: CGPoint(x: origin.x + stepLength, y: origin.y - CGFloat(i+1) * yStepLength))
@@ -143,14 +163,38 @@ public class LineChartView: ChartView {
     }
     
     private var chartLineLayer: CAShapeLayer!
-    private var chartPointLayer: CAShapeLayer!
+//    private var chartPointLayer: CAShapeLayer!
     private func drawDatas() {
         let chartLinePath = drawChartLine()
-        chartLinePath.stroke()
+
+        if chartLineLayer != nil {
+            chartLineLayer.removeFromSuperlayer()
+            chartLineLayer = nil
+        }
+
+        chartLineLayer = CAShapeLayer()
+        chartLineLayer.path = chartLinePath.cgPath
+        chartLineLayer.strokeEnd = 1
+        chartLineLayer.fillColor = UIColor.clear.cgColor
+        chartLineLayer.strokeColor = lineColor.cgColor
+        chartLineLayer.lineWidth = lineWidth
+        chartLineLayer.lineCap = lineCapStyle.kCAlineCap
+        layer.addSublayer(chartLineLayer)
+        
+        // animate
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.fromValue = 0
+        animation.toValue = 1
+        animation.duration = 1.0
+        chartLineLayer.add(animation, forKey: "ChartLineAnimation")
     }
     
     private func drawChartLine() -> UIBezierPath {
         let path = UIBezierPath()
+        path.lineWidth = lineWidth
+        path.lineCapStyle = lineCapStyle
+        
+        lineColor.setStroke()
         
         guard yDatas.count > 0 else { return path }
         
@@ -164,6 +208,15 @@ public class LineChartView: ChartView {
         }
         
         return path
+    }
+}
+
+extension LineChartView {
+    private func yAxisInfo() -> (minData: Double, maxData: Double, labelsCount: Int) {
+        let minD = (self.minData > 0) ? self.minData : 0.0
+        let maxD = max(minD, self.maxData)
+        let count = Int(maxD)
+        return (minD, maxD, count)
     }
 }
 
@@ -184,7 +237,15 @@ extension String {
     }
 }
 
-
+extension CGLineCap {
+    public var kCAlineCap: String {
+        switch self {
+        case .butt: return kCALineCapButt
+        case .round: return kCALineCapRound
+        case .square: return kCALineCapSquare
+        }
+    }
+}
 
 
 
