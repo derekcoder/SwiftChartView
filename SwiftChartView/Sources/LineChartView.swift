@@ -12,19 +12,12 @@ import QuartzCore
 public enum PointStyle {
     case none
     case circle
-    case square
-    case triangle
 }
 
 @IBDesignable
 public class LineChartView: ChartView {
-    public var xLabels: [String] = ["Jan", "Feb", "Mar"] {
-        didSet {
-            drawChart()
-        }
-    }
-    public var yDatas: [Double] = [1.0, 2.0, 5.0]
-    public var yLabels: [String]? = nil
+    public var xLabels: [String] =  []
+    public var yDatas: [Double] = []
     
     public var xMargin: CGFloat = 40 {
         didSet {
@@ -66,10 +59,13 @@ public class LineChartView: ChartView {
     @IBInspectable
     public var lineColor: UIColor = .lightGray
     
+    public var pointStyle: PointStyle = .none
+    
     // MARK: - y Axis Attributes
     private var maxData: Double { return ceil(yDatas.max() ?? 0.0) }
-    private var minData: Double { return 1.0 }
+    private var minData: Double { return 0.0 }
     private var yLabelsCount: Int = 5
+    private var yStepData: Double { return (maxData - minData) / Double(yLabelsCount) }
     
     // MARK: - Draw
     private var xLabelsCount: Int { return xLabels.count }
@@ -81,9 +77,13 @@ public class LineChartView: ChartView {
     
     public override func draw(_ rect: CGRect) {
         drawAxis()
-        
         drawLabels()
-        drawChartLine().stroke()
+        drawDatas()
+//        drawChartLine().stroke()
+    }
+    
+    public func strokeChart() {
+        setNeedsDisplay()
     }
     
     private func drawAxis() {
@@ -114,7 +114,7 @@ public class LineChartView: ChartView {
         // Draw step
         let stepLength: CGFloat = 2
 
-        // y        
+        // y
         for i in 0 ..< yLabelsCount {
             path.move(to: CGPoint(x: origin.x, y: origin.y - CGFloat(i+1) * yStepLength))
             path.addLine(to: CGPoint(x: origin.x + stepLength, y: origin.y - CGFloat(i+1) * yStepLength))
@@ -131,16 +131,6 @@ public class LineChartView: ChartView {
         path.stroke()
     }
     
-    public func drawChart() {
-        setNeedsDisplay()
-        
-        // Draw labels
-        drawLabels()
-        
-        // Draw datas
-        drawDatas()
-    }
-    
     private func drawLabels() {
         // x
         let xLabelFont = UIFont.systemFont(ofSize: 12.0)
@@ -154,7 +144,7 @@ public class LineChartView: ChartView {
         // y
         let yLabelFont = UIFont.systemFont(ofSize: 12.0)
         for i in 0 ..< yLabelsCount {
-            let label = "\(Double(i+1))"
+            let label = String(yStepData * Double(i+1))
             let stepPoint = CGPoint(x: origin.x, y: origin.y - CGFloat(i+1) * yStepLength)
             let size = label.size(inFont: yLabelFont)
             let rect = CGRect(x: stepPoint.x - size.width - 2, y: stepPoint.y - size.height / 2, width: size.width, height: size.height)
@@ -163,7 +153,6 @@ public class LineChartView: ChartView {
     }
     
     private var chartLineLayer: CAShapeLayer!
-//    private var chartPointLayer: CAShapeLayer!
     private func drawDatas() {
         let chartLinePath = drawChartLine()
 
@@ -180,13 +169,16 @@ public class LineChartView: ChartView {
         chartLineLayer.lineWidth = lineWidth
         chartLineLayer.lineCap = lineCapStyle.kCAlineCap
         layer.addSublayer(chartLineLayer)
-        
-        // animate
+    }
+    
+    private func animate() {
         let animation = CABasicAnimation(keyPath: "strokeEnd")
         animation.fromValue = 0
         animation.toValue = 1
         animation.duration = 1.0
         chartLineLayer.add(animation, forKey: "ChartLineAnimation")
+        
+        chartLineLayer.strokeEnd = 1
     }
     
     private func drawChartLine() -> UIBezierPath {
@@ -198,13 +190,18 @@ public class LineChartView: ChartView {
         
         guard yDatas.count > 0 else { return path }
         
-        let firstData = yDatas[0]
-        let firstPoint = CGPoint(x: origin.x + CGFloat(1) * xStepLength, y: origin.y - CGFloat(firstData) * yStepLength)
-        path.move(to: firstPoint)
+        let pointRadius = lineWidth
         
+        let firstData = yDatas[0]
+        let firstPoint = CGPoint(x: origin.x + CGFloat(1) * xStepLength, y: origin.y - CGFloat(firstData/yStepData) * yStepLength)
+        
+        path.move(to: firstPoint)
+        drawPoint(withCenter: firstPoint, radius: pointRadius, inPath: path)
+
         for i in 1 ..< yDatas.count {
-            let point = CGPoint(x: origin.x + CGFloat(i+1) * xStepLength, y: origin.y - CGFloat(yDatas[i]) * yStepLength)
+            let point = CGPoint(x: origin.x + CGFloat(i+1) * xStepLength, y: origin.y - CGFloat(yDatas[i]/yStepData) * yStepLength)
             path.addLine(to: point)
+            drawPoint(withCenter: point, radius: pointRadius, inPath: path)
         }
         
         return path
@@ -226,6 +223,21 @@ extension LineChartView {
         paragrahStyle.lineBreakMode = .byTruncatingTail
         paragrahStyle.alignment = alignment
         (text as NSString).draw(in: rect, withAttributes: [.paragraphStyle: paragrahStyle, .font: font])
+    }
+}
+
+// Draw point
+extension LineChartView {
+    private func drawPoint(withCenter center: CGPoint, radius: CGFloat, inPath path: UIBezierPath) {
+        switch pointStyle {
+        case .none: break
+        case .circle: drawCircle(withCenter: center, radius: radius, inPath: path)
+        }
+        path.move(to: center)
+    }
+    
+    private func drawCircle(withCenter center: CGPoint, radius: CGFloat, inPath path: UIBezierPath) {
+        path.addArc(withCenter: center, radius: radius, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
     }
 }
 

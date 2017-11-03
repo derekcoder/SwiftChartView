@@ -16,7 +16,10 @@ class ViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        chartView.drawChart()
+        chartView.xLabels = ["Jan", "Feb", "Mar"]
+        chartView.yDatas = [1.0, 7.2, 5.8]
+        
+        chartView.strokeChart()
     }
 }
 
