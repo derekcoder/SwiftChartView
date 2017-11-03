@@ -16,9 +16,11 @@ public enum PointStyle {
 
 @IBDesignable
 public class LineChartView: ChartView {
-    public var xLabels: [String] =  []
+//    public var xLabels: [String] = ["2017/11/01", "2017/11/02", "2017/11/03", "2017/11/04", "2017/11/05", "2017/11/06", "2017/11/07"]
+//    public var yDatas: [Double] = [0.0, 0.0, 325.0, 25.0, 0.0, 0.0, 75.0]
+    public var xLabels: [String] = []
     public var yDatas: [Double] = []
-    
+
     public var xMargin: CGFloat = 40 {
         didSet {
             setNeedsDisplay()
@@ -54,13 +56,20 @@ public class LineChartView: ChartView {
     
     // MARK: - Line Attributes
     @IBInspectable
-    public var lineWidth: CGFloat = 3
+    public var lineWidth: CGFloat = 2
     public var lineCapStyle: CGLineCap = .round
     @IBInspectable
     public var lineColor: UIColor = .lightGray
     
     public var pointStyle: PointStyle = .none
     
+    @IBInspectable
+    public var labelColor: UIColor = .lightGray
+    @IBInspectable
+    public var xLabelFontSize: CGFloat = 12.0
+    @IBInspectable
+    public var yLabelFontSize: CGFloat = 12.0
+
     // MARK: - y Axis Attributes
     private var maxData: Double { return ceil(yDatas.max() ?? 0.0) }
     private var minData: Double { return 0.0 }
@@ -133,22 +142,22 @@ public class LineChartView: ChartView {
     
     private func drawLabels() {
         // x
-        let xLabelFont = UIFont.systemFont(ofSize: 12.0)
+        let xLabelFont = UIFont.systemFont(ofSize: xLabelFontSize)
         for (i, label) in xLabels.enumerated() {
             let stepPoint = CGPoint(x: origin.x + CGFloat(i+1) * xStepLength, y: origin.y)
             let size = label.size(inFont: xLabelFont)
             let rect = CGRect(x: stepPoint.x - size.width / 2, y: stepPoint.y + 2, width: size.width, height: size.height)
-            drawText(label, in: rect, with: xLabelFont, alignment: .center)
+            drawText(label, inRect: rect, withFont: xLabelFont, withColor: labelColor, alignment: .center)
         }
         
         // y
-        let yLabelFont = UIFont.systemFont(ofSize: 12.0)
+        let yLabelFont = UIFont.systemFont(ofSize: yLabelFontSize)
         for i in 0 ..< yLabelsCount {
             let label = String(yStepData * Double(i+1))
             let stepPoint = CGPoint(x: origin.x, y: origin.y - CGFloat(i+1) * yStepLength)
             let size = label.size(inFont: yLabelFont)
             let rect = CGRect(x: stepPoint.x - size.width - 2, y: stepPoint.y - size.height / 2, width: size.width, height: size.height)
-            drawText(label, in: rect, with: yLabelFont, alignment: .center)
+            drawText(label, inRect: rect, withFont: yLabelFont, withColor: labelColor, alignment: .center)
         }
     }
     
@@ -218,11 +227,11 @@ extension LineChartView {
 }
 
 extension LineChartView {
-    private func drawText(_ text: String, in rect: CGRect, with font: UIFont, alignment: NSTextAlignment) {
+    private func drawText(_ text: String, inRect rect: CGRect, withFont font: UIFont, withColor color: UIColor, alignment: NSTextAlignment) {
         let paragrahStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
         paragrahStyle.lineBreakMode = .byTruncatingTail
         paragrahStyle.alignment = alignment
-        (text as NSString).draw(in: rect, withAttributes: [.paragraphStyle: paragrahStyle, .font: font])
+        (text as NSString).draw(in: rect, withAttributes: [.paragraphStyle: paragrahStyle, .font: font, .foregroundColor: color])
     }
 }
 

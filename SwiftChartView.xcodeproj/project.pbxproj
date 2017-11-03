@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		657C41151FAC73B400ED584A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 657C41141FAC73B400ED584A /* README.md */; };
+		659E8EB21FAC7031008DBDD6 /* SwiftChartView.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 659E8EB11FAC7031008DBDD6 /* SwiftChartView.podspec */; };
 		65AB21BE1FA969EC00BF05BC /* SwiftChartView.h in Headers */ = {isa = PBXBuildFile; fileRef = 65AB21BC1FA969EC00BF05BC /* SwiftChartView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		65AB21CB1FA96A3400BF05BC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AB21CA1FA96A3400BF05BC /* AppDelegate.swift */; };
 		65AB21CD1FA96A3400BF05BC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AB21CC1FA96A3400BF05BC /* ViewController.swift */; };
@@ -44,6 +46,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		657C41141FAC73B400ED584A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		659E8EB11FAC7031008DBDD6 /* SwiftChartView.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SwiftChartView.podspec; sourceTree = "<group>"; };
 		65AB21B91FA969EC00BF05BC /* SwiftChartView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftChartView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		65AB21BC1FA969EC00BF05BC /* SwiftChartView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftChartView.h; sourceTree = "<group>"; };
 		65AB21BD1FA969EC00BF05BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -80,6 +84,8 @@
 		65AB21AF1FA969EC00BF05BC = {
 			isa = PBXGroup;
 			children = (
+				657C41141FAC73B400ED584A /* README.md */,
+				659E8EB11FAC7031008DBDD6 /* SwiftChartView.podspec */,
 				65AB21BB1FA969EC00BF05BC /* SwiftChartView */,
 				65AB21C91FA96A3400BF05BC /* SwiftChartViewDemo */,
 				65AB21BA1FA969EC00BF05BC /* Products */,
@@ -231,6 +237,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				657C41151FAC73B400ED584A /* README.md in Resources */,
+				659E8EB21FAC7031008DBDD6 /* SwiftChartView.podspec in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -421,6 +429,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = SwiftChartView/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.derekcoder.SwiftChartView;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -444,6 +453,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = SwiftChartView/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.derekcoder.SwiftChartView;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -461,6 +471,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 73DV6R4Q82;
 				INFOPLIST_FILE = SwiftChartViewDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.derekcoder.SwiftChartViewDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -477,6 +488,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 73DV6R4Q82;
 				INFOPLIST_FILE = SwiftChartViewDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.derekcoder.SwiftChartViewDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
