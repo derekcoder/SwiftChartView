@@ -71,7 +71,10 @@ public class LineChartView: ChartView {
     public var yLabelFontSize: CGFloat = 12.0
 
     // MARK: - y Axis Attributes
-    private var maxData: Double { return ceil(yDatas.max() ?? 0.0) }
+    private var maxData: Double {
+        let data = ceil(yDatas.max() ?? 0.0)
+        return data != 0 ? data : 5.0
+    }
     private var minData: Double { return 0.0 }
     private var yLabelsCount: Int = 5
     private var yStepData: Double { return (maxData - minData) / Double(yLabelsCount) }
