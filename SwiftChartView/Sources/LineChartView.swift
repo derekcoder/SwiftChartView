@@ -48,7 +48,7 @@ public class LineChartView: ChartView {
     }
     
     @IBInspectable
-    public var axisColor: UIColor = .lightGray {
+    public var axisColor: UIColor = .blue {
         didSet {
             setNeedsDisplay()
         }
@@ -63,8 +63,6 @@ public class LineChartView: ChartView {
     
     public var pointStyle: PointStyle = .none
     
-    @IBInspectable
-    public var labelColor: UIColor = .lightGray
     @IBInspectable
     public var xLabelFontSize: CGFloat = 12.0
     @IBInspectable
@@ -87,45 +85,90 @@ public class LineChartView: ChartView {
     private var xStepLength: CGFloat { return (xAxisWidth - xMargin) / CGFloat(xLabelsCount) }
     private var yStepLength: CGFloat { return (yAxisHeight - yMargin) / CGFloat(yLabelsCount) }
     
-    public override func draw(_ rect: CGRect) {
-        drawAxis()
-        drawLabels()
-        drawDatas()
-//        drawChartLine().stroke()
-    }
-    
     public func strokeChart() {
         setNeedsDisplay()
     }
     
-    private func drawAxis() {
-        // y
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setup()
+    }
+    
+    private func setup() {
+        backgroundLayer = CAShapeLayer()
+        backgroundLayer.strokeColor = axisColor.cgColor
+        backgroundLayer.fillColor = UIColor.clear.cgColor
+        backgroundLayer.lineCap = kCALineCapRound
+        backgroundLayer.lineWidth = 1
+        layer.addSublayer(backgroundLayer)
+        
+        chartLineLayer = CAShapeLayer()
+        chartLineLayer.fillColor = nil
+        chartLineLayer.strokeColor = lineColor.cgColor
+        chartLineLayer.backgroundColor = UIColor.clear.cgColor
+        chartLineLayer.lineCap = lineCapStyle.kCAlineCap
+        chartLineLayer.lineWidth = lineWidth
+        layer.addSublayer(chartLineLayer)
+    }
+    
+    private func animate() {
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.fromValue = 0
+        animation.toValue = 1
+        animation.duration = 1.0
+        chartLineLayer.add(animation, forKey: "ChartLineAnimation")
+    }
+    
+    private var backgroundLayer: CAShapeLayer!
+    private var chartLineLayer: CAShapeLayer!
+
+    // MARK: - Drawing
+    public override func draw(_ rect: CGRect) {
+        drawBackrgound()
+        drawChartLines()
+    }
+
+    private func drawBackrgound() {
         let path = UIBezierPath()
+        drawAxis(inPath: path)
+        drawLabels(inPath: path)
+        backgroundLayer.path = path.cgPath
+    }
+    
+    private func drawAxis(inPath path: UIBezierPath) {
+        path.lineWidth = 1
+        
+        // y
         path.move(to: origin)
         path.addLine(to: CGPoint(x: yAxisOffsets, y: 0))
         
         // x
         path.move(to: origin)
         path.addLine(to: CGPoint(x: xAxisWidth + yAxisOffsets, y: yAxisHeight))
-
+        
         // Draw axis arrow
         let arrowWidth: CGFloat = 6
         let arrowHeight: CGFloat = 6
         let arrowHalfWidth: CGFloat = arrowWidth / 2
-
+        
         // y
         path.move(to: CGPoint(x: yAxisOffsets - arrowHalfWidth, y: arrowHeight))
         path.addLine(to: CGPoint(x: yAxisOffsets, y: 0))
         path.addLine(to: CGPoint(x: yAxisOffsets + arrowHalfWidth, y: arrowHeight))
-
+        
         // x
         path.move(to: CGPoint(x: xAxisWidth + yAxisOffsets - arrowHeight, y: yAxisHeight - arrowHalfWidth))
         path.addLine(to: CGPoint(x: xAxisWidth + yAxisOffsets, y: yAxisHeight))
         path.addLine(to: CGPoint(x: xAxisWidth + yAxisOffsets - arrowHeight, y: yAxisHeight + arrowHalfWidth))
-
+        
         // Draw step
         let stepLength: CGFloat = 2
-
+        
         // y
         for i in 0 ..< yLabelsCount {
             path.move(to: CGPoint(x: origin.x, y: origin.y - CGFloat(i+1) * yStepLength))
@@ -137,20 +180,16 @@ public class LineChartView: ChartView {
             path.move(to: CGPoint(x: origin.x + CGFloat(i+1) * xStepLength, y: origin.y))
             path.addLine(to: CGPoint(x: origin.x + CGFloat(i+1) * xStepLength, y: origin.y - stepLength))
         }
-        
-        axisColor.setStroke()
-        
-        path.stroke()
     }
     
-    private func drawLabels() {
+    private func drawLabels(inPath path: UIBezierPath) {
         // x
         let xLabelFont = UIFont.systemFont(ofSize: xLabelFontSize)
         for (i, label) in xLabels.enumerated() {
             let stepPoint = CGPoint(x: origin.x + CGFloat(i+1) * xStepLength, y: origin.y)
             let size = label.size(inFont: xLabelFont)
             let rect = CGRect(x: stepPoint.x - size.width / 2, y: stepPoint.y + 2, width: size.width, height: size.height)
-            drawText(label, inRect: rect, withFont: xLabelFont, withColor: labelColor, alignment: .center)
+            drawText(label, inRect: rect, withFont: xLabelFont, withColor: axisColor, alignment: .center)
         }
         
         // y
@@ -160,63 +199,42 @@ public class LineChartView: ChartView {
             let stepPoint = CGPoint(x: origin.x, y: origin.y - CGFloat(i+1) * yStepLength)
             let size = label.size(inFont: yLabelFont)
             let rect = CGRect(x: stepPoint.x - size.width - 2, y: stepPoint.y - size.height / 2, width: size.width, height: size.height)
-            drawText(label, inRect: rect, withFont: yLabelFont, withColor: labelColor, alignment: .center)
+            drawText(label, inRect: rect, withFont: yLabelFont, withColor: axisColor, alignment: .center)
         }
     }
     
-    private var chartLineLayer: CAShapeLayer!
-    private func drawDatas() {
-        let chartLinePath = drawChartLine()
-
-        if chartLineLayer != nil {
-            chartLineLayer.removeFromSuperlayer()
-            chartLineLayer = nil
+    @IBInspectable
+    public var progress: CGFloat = 0.0 {
+        didSet {
+            setNeedsDisplay()
         }
-
-        chartLineLayer = CAShapeLayer()
-        chartLineLayer.path = chartLinePath.cgPath
-        chartLineLayer.strokeEnd = 1
-        chartLineLayer.fillColor = UIColor.clear.cgColor
-        chartLineLayer.strokeColor = lineColor.cgColor
-        chartLineLayer.lineWidth = lineWidth
-        chartLineLayer.lineCap = lineCapStyle.kCAlineCap
-        layer.addSublayer(chartLineLayer)
     }
-    
-    private func animate() {
-        let animation = CABasicAnimation(keyPath: "strokeEnd")
-        animation.fromValue = 0
-        animation.toValue = 1
-        animation.duration = 1.0
-        chartLineLayer.add(animation, forKey: "ChartLineAnimation")
-        
-        chartLineLayer.strokeEnd = 1
-    }
-    
-    private func drawChartLine() -> UIBezierPath {
+    private func drawChartLines() {
         let path = UIBezierPath()
         path.lineWidth = lineWidth
         path.lineCapStyle = lineCapStyle
         
         lineColor.setStroke()
         
-        guard yDatas.count > 0 else { return path }
-        
-        let pointRadius = lineWidth
-        
-        let firstData = yDatas[0]
-        let firstPoint = CGPoint(x: origin.x + CGFloat(1) * xStepLength, y: origin.y - CGFloat(firstData/yStepData) * yStepLength)
-        
-        path.move(to: firstPoint)
-        drawPoint(withCenter: firstPoint, radius: pointRadius, inPath: path)
-
-        for i in 1 ..< yDatas.count {
-            let point = CGPoint(x: origin.x + CGFloat(i+1) * xStepLength, y: origin.y - CGFloat(yDatas[i]/yStepData) * yStepLength)
-            path.addLine(to: point)
-            drawPoint(withCenter: point, radius: pointRadius, inPath: path)
+        if yDatas.count > 0 {
+            let pointRadius = lineWidth
+            
+            let firstData = yDatas[0]
+            let firstPoint = CGPoint(x: origin.x + CGFloat(1) * xStepLength, y: origin.y - CGFloat(firstData/yStepData) * yStepLength)
+            
+            path.move(to: firstPoint)
+            drawPoint(withCenter: firstPoint, radius: pointRadius, inPath: path)
+            
+            for i in 1 ..< yDatas.count {
+                let point = CGPoint(x: origin.x + CGFloat(i+1) * xStepLength, y: origin.y - CGFloat(yDatas[i]/yStepData) * yStepLength)
+                path.addLine(to: point)
+                drawPoint(withCenter: point, radius: pointRadius, inPath: path)
+            }
         }
         
-        return path
+        chartLineLayer.path = path.cgPath
+        
+        animate()
     }
 }
 

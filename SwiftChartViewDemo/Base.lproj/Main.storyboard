@@ -70,9 +70,6 @@
                                     <constraint firstAttribute="height" constant="200" id="zAf-RD-nQ3"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="labelColor">
-                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="yLabelFontSize">
                                         <real key="value" value="6"/>
                                     </userDefinedRuntimeAttribute>
