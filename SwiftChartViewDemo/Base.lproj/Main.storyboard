@@ -65,7 +65,7 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XBz-rc-Q3r" customClass="LineChartView" customModule="SwiftChartView">
                                 <rect key="frame" x="0.0" y="233.5" width="374" height="200"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" red="0.31957137584686279" green="0.68460524082183838" blue="0.4074215292930603" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="zAf-RD-nQ3"/>
                                 </constraints>
@@ -78,9 +78,18 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="luO-OT-E1d">
+                                <rect key="frame" x="144" y="523" width="87" height="30"/>
+                                <state key="normal" title="Stroke Chart"/>
+                                <connections>
+                                    <action selector="strokeChart" destination="BYZ-38-t0r" eventType="touchUpInside" id="y1O-CW-Jjg"/>
+                                </connections>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.3186586797" green="0.68707323070000004" blue="0.40937203170000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="luO-OT-E1d" firstAttribute="centerX" secondItem="XBz-rc-Q3r" secondAttribute="centerX" id="K0W-tt-yvy"/>
+                            <constraint firstItem="luO-OT-E1d" firstAttribute="top" secondItem="XBz-rc-Q3r" secondAttribute="bottom" constant="89.5" id="Z8m-Ty-IDY"/>
                             <constraint firstItem="XBz-rc-Q3r" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="fBF-XS-Izh"/>
                             <constraint firstItem="XBz-rc-Q3r" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="fbA-rg-oPQ"/>
                             <constraint firstItem="XBz-rc-Q3r" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="l0i-vM-fru"/>

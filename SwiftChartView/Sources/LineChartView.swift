@@ -21,53 +21,77 @@ public class LineChartView: ChartView {
     public var xLabels: [String] = []
     public var yDatas: [Double] = []
 
+    @IBInspectable
     public var xMargin: CGFloat = 40 {
         didSet {
             setNeedsDisplay()
         }
     }
-    
+    @IBInspectable
     public var yMargin: CGFloat = 40 {
         didSet {
             setNeedsDisplay()
         }
     }
-    
     @IBInspectable
     public var xAxisOffsets: CGFloat = 20 {
         didSet {
             setNeedsDisplay()
         }
     }
-    
     @IBInspectable
     public var yAxisOffsets: CGFloat = 20 {
         didSet {
             setNeedsDisplay()
         }
     }
-    
     @IBInspectable
-    public var axisColor: UIColor = .blue {
+    public var axisColor: UIColor = .white {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+    @IBInspectable
+    public var xLabelFontSize: CGFloat = 12.0 {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+    @IBInspectable
+    public var yLabelFontSize: CGFloat = 12.0 {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+
+    // MARK: - Line Attributes
+    @IBInspectable
+    public var lineWidth: CGFloat = 2 {
+        didSet {
+            chartLineLayer.lineWidth = lineWidth
+            setNeedsDisplay()
+        }
+    }
+    public var lineCapStyle: CGLineCap = .round {
+        didSet {
+            chartLineLayer.lineCap = lineCapStyle.kCAlineCap
+            setNeedsDisplay()
+        }
+    }
+    @IBInspectable
+    public var lineColor: UIColor = .white {
+        didSet {
+            chartLineLayer.strokeColor = lineColor.cgColor
+            setNeedsDisplay()
+        }
+    }
+    
+    public var pointStyle: PointStyle = .none {
         didSet {
             setNeedsDisplay()
         }
     }
     
-    // MARK: - Line Attributes
-    @IBInspectable
-    public var lineWidth: CGFloat = 2
-    public var lineCapStyle: CGLineCap = .round
-    @IBInspectable
-    public var lineColor: UIColor = .lightGray
-    
-    public var pointStyle: PointStyle = .none
-    
-    @IBInspectable
-    public var xLabelFontSize: CGFloat = 12.0
-    @IBInspectable
-    public var yLabelFontSize: CGFloat = 12.0
-
     // MARK: - y Axis Attributes
     private var maxData: Double {
         let data = ceil(yDatas.max() ?? 0.0)
@@ -77,14 +101,16 @@ public class LineChartView: ChartView {
     private var yLabelsCount: Int = 5
     private var yStepData: Double { return (maxData - minData) / Double(yLabelsCount) }
     
-    // MARK: - Draw
     private var xLabelsCount: Int { return xLabels.count }
     private var xAxisWidth: CGFloat { return bounds.size.width - yAxisOffsets }
     private var yAxisHeight: CGFloat { return bounds.size.height - xAxisOffsets }
     private var origin: CGPoint { return CGPoint(x: yAxisOffsets, y: yAxisHeight) }
     private var xStepLength: CGFloat { return (xAxisWidth - xMargin) / CGFloat(xLabelsCount) }
     private var yStepLength: CGFloat { return (yAxisHeight - yMargin) / CGFloat(yLabelsCount) }
-    
+        
+    private var backgroundLayer: CAShapeLayer!
+    private var chartLineLayer: CAShapeLayer!
+
     public func strokeChart() {
         setNeedsDisplay()
     }
@@ -124,9 +150,6 @@ public class LineChartView: ChartView {
         chartLineLayer.add(animation, forKey: "ChartLineAnimation")
     }
     
-    private var backgroundLayer: CAShapeLayer!
-    private var chartLineLayer: CAShapeLayer!
-
     // MARK: - Drawing
     public override func draw(_ rect: CGRect) {
         drawBackrgound()
