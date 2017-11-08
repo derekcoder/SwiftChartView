@@ -21,8 +21,14 @@ class ViewController: UIViewController {
     }
     
     @IBAction func strokeChart() {
-        chartView.xLabels = ["11/01", "11/02", "11/03", "11/04", "11/05", "11/06", "11/07"]
-        chartView.yDatas = [0.0, 0.0, 325.0, 25.0, 0.0, 0.0, 75.0]
+        var chartPoints: [ChartPoint] = []
+        for i in 1 ... 7 {
+            let value = Double(arc4random_uniform(100))
+            let chartPoint = ChartPoint(label: "11-0\(i)", value: value)
+            chartPoints.append(chartPoint)
+        }
+        
+        chartView.chartPoints = chartPoints
         chartView.strokeChart()
     }
 }

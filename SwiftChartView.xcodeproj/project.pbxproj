@@ -19,6 +19,7 @@
 		65AB21DB1FA96A3F00BF05BC /* SwiftChartView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 65AB21B91FA969EC00BF05BC /* SwiftChartView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		65AB21E21FA96B0A00BF05BC /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AB21E11FA96B0A00BF05BC /* ChartView.swift */; };
 		65AB21E41FA96B4000BF05BC /* LineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AB21E31FA96B4000BF05BC /* LineChartView.swift */; };
+		E3F9D0121FB2D6B8007E8213 /* ChartPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F9D0111FB2D6B8007E8213 /* ChartPoint.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,7 @@
 		65AB21D61FA96A3400BF05BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		65AB21E11FA96B0A00BF05BC /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		65AB21E31FA96B4000BF05BC /* LineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartView.swift; sourceTree = "<group>"; };
+		E3F9D0111FB2D6B8007E8213 /* ChartPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartPoint.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,9 +106,8 @@
 		65AB21BB1FA969EC00BF05BC /* SwiftChartView */ = {
 			isa = PBXGroup;
 			children = (
+				E3E691E21FB17E7300DC01FC /* Supporting Files */,
 				65AB21DF1FA96A8E00BF05BC /* Sources */,
-				65AB21BC1FA969EC00BF05BC /* SwiftChartView.h */,
-				65AB21BD1FA969EC00BF05BC /* Info.plist */,
 			);
 			path = SwiftChartView;
 			sourceTree = "<group>";
@@ -127,6 +128,7 @@
 			children = (
 				65AB21E11FA96B0A00BF05BC /* ChartView.swift */,
 				65AB21E31FA96B4000BF05BC /* LineChartView.swift */,
+				E3F9D0111FB2D6B8007E8213 /* ChartPoint.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -137,6 +139,15 @@
 				65AB21CA1FA96A3400BF05BC /* AppDelegate.swift */,
 				65AB21D61FA96A3400BF05BC /* Info.plist */,
 				65AB21D31FA96A3400BF05BC /* LaunchScreen.storyboard */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E3E691E21FB17E7300DC01FC /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				65AB21BC1FA969EC00BF05BC /* SwiftChartView.h */,
+				65AB21BD1FA969EC00BF05BC /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -260,6 +271,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				65AB21E21FA96B0A00BF05BC /* ChartView.swift in Sources */,
+				E3F9D0121FB2D6B8007E8213 /* ChartPoint.swift in Sources */,
 				65AB21E41FA96B4000BF05BC /* LineChartView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

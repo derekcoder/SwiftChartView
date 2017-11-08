@@ -16,57 +16,22 @@ public enum PointStyle {
 
 @IBDesignable
 public class LineChartView: ChartView {
-//    public var xLabels: [String] = ["2017/11/01", "2017/11/02", "2017/11/03", "2017/11/04", "2017/11/05", "2017/11/06", "2017/11/07"]
-//    public var yDatas: [Double] = [0.0, 0.0, 325.0, 25.0, 0.0, 0.0, 75.0]
-    public var xLabels: [String] = []
-    public var yDatas: [Double] = []
+    public var chartPoints: [ChartPoint] = [] {
+        didSet {
+            let values = valuesFromChartPoints(chartPoints)
+            let value = ceil(values.max() ?? 0.0)
+            maxValue = (value != 0 ? value : 5.0)
 
-    @IBInspectable
-    public var xMargin: CGFloat = 40 {
-        didSet {
-            setNeedsDisplay()
+            xLabels = labelsFromChartPoints(chartPoints)
+            yPoints = pointsFromChartPoints(chartPoints)
         }
     }
-    @IBInspectable
-    public var yMargin: CGFloat = 40 {
-        didSet {
-            setNeedsDisplay()
-        }
-    }
-    @IBInspectable
-    public var xAxisOffsets: CGFloat = 20 {
-        didSet {
-            setNeedsDisplay()
-        }
-    }
-    @IBInspectable
-    public var yAxisOffsets: CGFloat = 20 {
-        didSet {
-            setNeedsDisplay()
-        }
-    }
-    @IBInspectable
-    public var axisColor: UIColor = .white {
-        didSet {
-            setNeedsDisplay()
-        }
-    }
-    @IBInspectable
-    public var xLabelFontSize: CGFloat = 12.0 {
-        didSet {
-            setNeedsDisplay()
-        }
-    }
-    @IBInspectable
-    public var yLabelFontSize: CGFloat = 12.0 {
-        didSet {
-            setNeedsDisplay()
-        }
-    }
+    public private (set) var yPoints: [CGPoint] = []
+    public private (set) var xLabels: [String]  = []
 
-    // MARK: - Line Attributes
-    @IBInspectable
-    public var lineWidth: CGFloat = 2 {
+    
+    // MARK: - Chart Line Attributes
+    @IBInspectable public var lineWidth: CGFloat = 2 {
         didSet {
             chartLineLayer.lineWidth = lineWidth
             setNeedsDisplay()
@@ -78,38 +43,39 @@ public class LineChartView: ChartView {
             setNeedsDisplay()
         }
     }
-    @IBInspectable
-    public var lineColor: UIColor = .white {
+    @IBInspectable public var lineColor: UIColor = .white {
         didSet {
             chartLineLayer.strokeColor = lineColor.cgColor
             setNeedsDisplay()
         }
     }
-    
-    public var pointStyle: PointStyle = .none {
-        didSet {
-            setNeedsDisplay()
-        }
-    }
+    public var pointStyle: PointStyle = .none { didSet { setNeedsDisplay() } }
     
     // MARK: - y Axis Attributes
-    private var maxData: Double {
-        let data = ceil(yDatas.max() ?? 0.0)
-        return data != 0 ? data : 5.0
-    }
-    private var minData: Double { return 0.0 }
+    @IBInspectable public var yMargin: CGFloat = 30 { didSet { setNeedsDisplay() } }
+    @IBInspectable public var yLabelFontSize: CGFloat = 12.0 { didSet { setNeedsDisplay() } }
+    @IBInspectable public var yAxisOffsets: CGFloat = 20 { didSet { setNeedsDisplay() } }
+    public private (set) var maxValue: Double = 5.0
+    public private (set) var minValue: Double = 0.0
     private var yLabelsCount: Int = 5
-    private var yStepData: Double { return (maxData - minData) / Double(yLabelsCount) }
-    
-    private var xLabelsCount: Int { return xLabels.count }
-    private var xAxisWidth: CGFloat { return bounds.size.width - yAxisOffsets }
     private var yAxisHeight: CGFloat { return bounds.size.height - xAxisOffsets }
+    private var yStepValue: Double { return (maxValue - minValue) / Double(yLabelsCount) }
+    private var yStepPointValue: CGFloat { return (yAxisHeight - yMargin) / CGFloat(yLabelsCount) }
+
+    // MARK: - x Axis Attributes
+    @IBInspectable public var xMargin: CGFloat = 30 { didSet { setNeedsDisplay() } }
+    @IBInspectable public var xLabelFontSize: CGFloat = 12.0 { didSet { setNeedsDisplay() } }
+    @IBInspectable public var xAxisOffsets: CGFloat = 20 { didSet { setNeedsDisplay() } }
+    private var xAxisWidth: CGFloat { return bounds.size.width - yAxisOffsets }
+    private var xStepPointValue: CGFloat { return (xAxisWidth - xMargin) / CGFloat(xLabels.count) }
+    
+    // MARK: - x & y Attributes
+    @IBInspectable public var axisColor: UIColor = .white { didSet { setNeedsDisplay() } }
     private var origin: CGPoint { return CGPoint(x: yAxisOffsets, y: yAxisHeight) }
-    private var xStepLength: CGFloat { return (xAxisWidth - xMargin) / CGFloat(xLabelsCount) }
-    private var yStepLength: CGFloat { return (yAxisHeight - yMargin) / CGFloat(yLabelsCount) }
-        
-    private var backgroundLayer: CAShapeLayer!
-    private var chartLineLayer: CAShapeLayer!
+    
+    // MARK: - Layer
+    private let backgroundLayer: CAShapeLayer = CAShapeLayer()
+    private let chartLineLayer: CAShapeLayer = CAShapeLayer()
 
     public func strokeChart() {
         setNeedsDisplay()
@@ -126,14 +92,12 @@ public class LineChartView: ChartView {
     }
     
     private func setup() {
-        backgroundLayer = CAShapeLayer()
         backgroundLayer.strokeColor = axisColor.cgColor
         backgroundLayer.fillColor = UIColor.clear.cgColor
         backgroundLayer.lineCap = kCALineCapRound
         backgroundLayer.lineWidth = 1
         layer.addSublayer(backgroundLayer)
         
-        chartLineLayer = CAShapeLayer()
         chartLineLayer.fillColor = nil
         chartLineLayer.strokeColor = lineColor.cgColor
         chartLineLayer.backgroundColor = UIColor.clear.cgColor
@@ -154,6 +118,32 @@ public class LineChartView: ChartView {
     public override func draw(_ rect: CGRect) {
         drawBackrgound()
         drawChartLines()
+    }
+    
+    private func drawChartLines() {
+        let path = UIBezierPath()
+        path.lineWidth = lineWidth
+        path.lineCapStyle = lineCapStyle
+        
+        lineColor.setStroke()
+        
+        if yPoints.count > 0 {
+            let pointRadius = lineWidth
+            
+            let firstPoint = yPoints[0]
+            path.move(to: firstPoint)
+            drawPoint(withCenter: firstPoint, radius: pointRadius, inPath: path)
+            
+            for i in 1 ..< yPoints.count {
+                let point = yPoints[i]
+                path.addLine(to: point)
+                drawPoint(withCenter: point, radius: pointRadius, inPath: path)
+            }
+        }
+        
+        chartLineLayer.path = path.cgPath
+        
+        animate()
     }
 
     private func drawBackrgound() {
@@ -194,14 +184,14 @@ public class LineChartView: ChartView {
         
         // y
         for i in 0 ..< yLabelsCount {
-            path.move(to: CGPoint(x: origin.x, y: origin.y - CGFloat(i+1) * yStepLength))
-            path.addLine(to: CGPoint(x: origin.x + stepLength, y: origin.y - CGFloat(i+1) * yStepLength))
+            path.move(to: CGPoint(x: origin.x, y: origin.y - CGFloat(i+1) * yStepPointValue))
+            path.addLine(to: CGPoint(x: origin.x + stepLength, y: origin.y - CGFloat(i+1) * yStepPointValue))
         }
         
         // x
-        for i in 0 ..< xLabelsCount {
-            path.move(to: CGPoint(x: origin.x + CGFloat(i+1) * xStepLength, y: origin.y))
-            path.addLine(to: CGPoint(x: origin.x + CGFloat(i+1) * xStepLength, y: origin.y - stepLength))
+        for i in 0 ..< xLabels.count {
+            path.move(to: CGPoint(x: origin.x + CGFloat(i+1) * xStepPointValue, y: origin.y))
+            path.addLine(to: CGPoint(x: origin.x + CGFloat(i+1) * xStepPointValue, y: origin.y - stepLength))
         }
     }
     
@@ -209,7 +199,7 @@ public class LineChartView: ChartView {
         // x
         let xLabelFont = UIFont.systemFont(ofSize: xLabelFontSize)
         for (i, label) in xLabels.enumerated() {
-            let stepPoint = CGPoint(x: origin.x + CGFloat(i+1) * xStepLength, y: origin.y)
+            let stepPoint = CGPoint(x: origin.x + CGFloat(i+1) * xStepPointValue, y: origin.y)
             let size = label.size(inFont: xLabelFont)
             let rect = CGRect(x: stepPoint.x - size.width / 2, y: stepPoint.y + 2, width: size.width, height: size.height)
             drawText(label, inRect: rect, withFont: xLabelFont, withColor: axisColor, alignment: .center)
@@ -218,55 +208,31 @@ public class LineChartView: ChartView {
         // y
         let yLabelFont = UIFont.systemFont(ofSize: yLabelFontSize)
         for i in 0 ..< yLabelsCount {
-            let label = String(yStepData * Double(i+1))
-            let stepPoint = CGPoint(x: origin.x, y: origin.y - CGFloat(i+1) * yStepLength)
+            let label = String(yStepValue * Double(i+1))
+            let stepPoint = CGPoint(x: origin.x, y: origin.y - CGFloat(i+1) * yStepPointValue)
             let size = label.size(inFont: yLabelFont)
             let rect = CGRect(x: stepPoint.x - size.width - 2, y: stepPoint.y - size.height / 2, width: size.width, height: size.height)
             drawText(label, inRect: rect, withFont: yLabelFont, withColor: axisColor, alignment: .center)
         }
     }
-    
-    @IBInspectable
-    public var progress: CGFloat = 0.0 {
-        didSet {
-            setNeedsDisplay()
-        }
-    }
-    private func drawChartLines() {
-        let path = UIBezierPath()
-        path.lineWidth = lineWidth
-        path.lineCapStyle = lineCapStyle
-        
-        lineColor.setStroke()
-        
-        if yDatas.count > 0 {
-            let pointRadius = lineWidth
-            
-            let firstData = yDatas[0]
-            let firstPoint = CGPoint(x: origin.x + CGFloat(1) * xStepLength, y: origin.y - CGFloat(firstData/yStepData) * yStepLength)
-            
-            path.move(to: firstPoint)
-            drawPoint(withCenter: firstPoint, radius: pointRadius, inPath: path)
-            
-            for i in 1 ..< yDatas.count {
-                let point = CGPoint(x: origin.x + CGFloat(i+1) * xStepLength, y: origin.y - CGFloat(yDatas[i]/yStepData) * yStepLength)
-                path.addLine(to: point)
-                drawPoint(withCenter: point, radius: pointRadius, inPath: path)
-            }
-        }
-        
-        chartLineLayer.path = path.cgPath
-        
-        animate()
-    }
 }
 
 extension LineChartView {
-    private func yAxisInfo() -> (minData: Double, maxData: Double, labelsCount: Int) {
-        let minD = (self.minData > 0) ? self.minData : 0.0
-        let maxD = max(minD, self.maxData)
-        let count = Int(maxD)
-        return (minD, maxD, count)
+    private func pointsFromChartPoints(_ chartPoints: [ChartPoint]) -> [CGPoint] {
+        var points: [CGPoint] = []
+        for i in 0 ..< chartPoints.count {
+            let point = CGPoint(x: origin.x + CGFloat(i+1) * xStepPointValue, y: origin.y - CGFloat(chartPoints[i].value/yStepValue) * yStepPointValue)
+            points.append(point)
+        }
+        return points
+    }
+    
+    private func valuesFromChartPoints(_ chartPoints: [ChartPoint]) -> [Double] {
+        return chartPoints.map { $0.value }
+    }
+
+    private func labelsFromChartPoints(_ chartPoints: [ChartPoint]) -> [String] {
+        return chartPoints.map { $0.label }
     }
 }
 
@@ -311,36 +277,3 @@ extension CGLineCap {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
