@@ -12,11 +12,12 @@ import SwiftChartView
 class ViewController: UIViewController {
 
     @IBOutlet weak var chartView: LineChartView!
+    
+    private let values: [Double] = [49.5, 80.0, 70.8, 100.0, 43.0, 30.0, 60.0]
     private lazy var chartPoints: [ChartPoint] = {
         var chartPoints: [ChartPoint] = []
-        for i in 1 ... 7 {
-            let value = Double(arc4random_uniform(100)) + 30
-            let chartPoint = ChartPoint(label: "11-0\(i)", value: value)
+        for i in 0 ..< values.count {
+            let chartPoint = ChartPoint(label: "11-0\(i+1)", value: values[i])
             chartPoints.append(chartPoint)
         }
         return chartPoints

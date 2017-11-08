@@ -2,7 +2,7 @@
 //  ChartPoint.swift
 //  SwiftChartView
 //
-//  Created by Julie on 8/11/17.
+//  Created by ZHOU DENGFENG on 8/11/17.
 //  Copyright © 2017 ZHOU DENGFENG DEREK. All rights reserved.
 //
 

@@ -5,6 +5,8 @@
 
 A set of chart views written in Swift.
 
+<img src="https://github.com/derekcoder/SwiftChartView/blob/master/SwiftChartViewDemo/demo.gif">
+
 ## Requirements
 
 - iOS 10.0+
@@ -32,6 +34,12 @@ chartView.strokeChart(animated: true)
 ```
 
 ### IB (storyboard)
+
+- Set Class
+<img src="https://github.com/derekcoder/SwiftProgressView/blob/master/SwiftProgressViewDemo/setclass.png">
+
+- Change attributes
+<img src="https://github.com/derekcoder/SwiftProgressView/blob/master/SwiftProgressViewDemo/attributes.png">
 
 
 ## Contact
