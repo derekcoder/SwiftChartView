@@ -21,6 +21,8 @@
 		65AB21E41FA96B4000BF05BC /* LineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AB21E31FA96B4000BF05BC /* LineChartView.swift */; };
 		E3F9D0121FB2D6B8007E8213 /* ChartPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F9D0111FB2D6B8007E8213 /* ChartPoint.swift */; };
 		E3F9D0141FB316F8007E8213 /* demo.gif in Resources */ = {isa = PBXBuildFile; fileRef = E3F9D0131FB316F8007E8213 /* demo.gif */; };
+		E3F9D0161FB31B45007E8213 /* setclass.png in Resources */ = {isa = PBXBuildFile; fileRef = E3F9D0151FB31B45007E8213 /* setclass.png */; };
+		E3F9D0181FB31B4C007E8213 /* attributes.png in Resources */ = {isa = PBXBuildFile; fileRef = E3F9D0171FB31B4C007E8213 /* attributes.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +66,8 @@
 		65AB21E31FA96B4000BF05BC /* LineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartView.swift; sourceTree = "<group>"; };
 		E3F9D0111FB2D6B8007E8213 /* ChartPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartPoint.swift; sourceTree = "<group>"; };
 		E3F9D0131FB316F8007E8213 /* demo.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = demo.gif; sourceTree = "<group>"; };
+		E3F9D0151FB31B45007E8213 /* setclass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = setclass.png; sourceTree = "<group>"; };
+		E3F9D0171FB31B4C007E8213 /* attributes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attributes.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +142,8 @@
 		65AB21E01FA96A9900BF05BC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E3F9D0171FB31B4C007E8213 /* attributes.png */,
+				E3F9D0151FB31B45007E8213 /* setclass.png */,
 				E3F9D0131FB316F8007E8213 /* demo.gif */,
 				65AB21CA1FA96A3400BF05BC /* AppDelegate.swift */,
 				65AB21D61FA96A3400BF05BC /* Info.plist */,
@@ -262,7 +268,9 @@
 			files = (
 				65AB21D51FA96A3400BF05BC /* LaunchScreen.storyboard in Resources */,
 				E3F9D0141FB316F8007E8213 /* demo.gif in Resources */,
+				E3F9D0161FB31B45007E8213 /* setclass.png in Resources */,
 				65AB21D21FA96A3400BF05BC /* Assets.xcassets in Resources */,
+				E3F9D0181FB31B4C007E8213 /* attributes.png in Resources */,
 				65AB21D01FA96A3400BF05BC /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

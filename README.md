@@ -36,10 +36,10 @@ chartView.strokeChart(animated: true)
 ### IB (storyboard)
 
 - Set Class
-<img src="https://github.com/derekcoder/SwiftProgressView/blob/master/SwiftProgressViewDemo/setclass.png">
+<img src="https://github.com/derekcoder/SwiftChartView/blob/master/SwiftChartViewDemo/setclass.png">
 
 - Change attributes
-<img src="https://github.com/derekcoder/SwiftProgressView/blob/master/SwiftProgressViewDemo/attributes.png">
+<img src="https://github.com/derekcoder/SwiftChartView/blob/master/SwiftChartViewDemo/attributes.png">
 
 
 ## Contact
