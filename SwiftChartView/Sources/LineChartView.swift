@@ -49,7 +49,8 @@ public class LineChartView: ChartView {
             setNeedsDisplay()
         }
     }
-    public var pointStyle: PointStyle = .none { didSet { setNeedsDisplay() } }
+    public var pointStyle: PointStyle = .none
+    public var isCurved: Bool = false { didSet { setNeedsDisplay() } }
     
     // MARK: - y Axis Attributes
     @IBInspectable public var yMargin: CGFloat = 30 { didSet { setNeedsDisplay() } }
@@ -57,6 +58,7 @@ public class LineChartView: ChartView {
     @IBInspectable public var yAxisOffsets: CGFloat = 20 { didSet { setNeedsDisplay() } }
     public private (set) var maxValue: Double = 5.0
     public private (set) var minValue: Double = 0.0
+    
     private var yLabelsCount: Int = 5
     private var yAxisHeight: CGFloat { return bounds.size.height - xAxisOffsets }
     private var yStepValue: Double { return (maxValue - minValue) / Double(yLabelsCount) }
@@ -66,11 +68,13 @@ public class LineChartView: ChartView {
     @IBInspectable public var xMargin: CGFloat = 30 { didSet { setNeedsDisplay() } }
     @IBInspectable public var xLabelFontSize: CGFloat = 12.0 { didSet { setNeedsDisplay() } }
     @IBInspectable public var xAxisOffsets: CGFloat = 20 { didSet { setNeedsDisplay() } }
+    
     private var xAxisWidth: CGFloat { return bounds.size.width - yAxisOffsets }
     private var xStepPointValue: CGFloat { return (xAxisWidth - xMargin) / CGFloat(xLabels.count) }
     
     // MARK: - x & y Attributes
     @IBInspectable public var axisColor: UIColor = .white { didSet { setNeedsDisplay() } }
+    
     private var origin: CGPoint { return CGPoint(x: yAxisOffsets, y: yAxisHeight) }
     
     // MARK: - Layer
@@ -117,7 +121,12 @@ public class LineChartView: ChartView {
     // MARK: - Drawing
     public override func draw(_ rect: CGRect) {
         drawBackrgound()
-        drawChartLines()
+        
+        if isCurved {
+            drawCurvedChartLines()
+        } else {
+            drawChartLines()
+        }
     }
     
     private func drawChartLines() {
@@ -233,6 +242,70 @@ extension LineChartView {
 
     private func labelsFromChartPoints(_ chartPoints: [ChartPoint]) -> [String] {
         return chartPoints.map { $0.label }
+    }
+}
+
+// Draw curved line
+extension LineChartView {
+    private struct CurvedControlPoint {
+        var point1: CGPoint
+        var point2: CGPoint
+    }
+    
+    private func controlPointsFrom(points: [CGPoint]) -> [CurvedControlPoint] {
+        var controlPoints: [CurvedControlPoint] = []
+        
+        let delta: CGFloat = 0.3
+        for i in 1 ..< points.count {
+            let prevPoint = points[i-1]
+            let point = points[i]
+            let controlPoint1 = CGPoint(x: prevPoint.x + delta*(point.x-prevPoint.x), y: prevPoint.y + delta*(point.y - prevPoint.y))
+            let controlPoint2 = CGPoint(x: point.x - delta*(point.x-prevPoint.x), y: point.y - delta*(point.y - prevPoint.y))
+            let controlPoint = CurvedControlPoint(point1: controlPoint1, point2: controlPoint2)
+            controlPoints.append(controlPoint)
+        }
+        
+        for i in 1 ..< points.count-1 {
+            let p1 = controlPoints[i-1].point2
+            let p2 = controlPoints[i].point1
+            
+            let centerPoint = points[i]
+            let pp1 = CGPoint(x: 2 * centerPoint.x - p1.x, y: 2 * centerPoint.y - p1.y)
+            let pp2 = CGPoint(x: 2 * centerPoint.x - p2.x, y: 2 * centerPoint.y - p2.y)
+            
+            controlPoints[i].point1 = CGPoint(x: (pp1.x + p2.x)/2, y: (pp1.y + p2.y)/2)
+            controlPoints[i-1].point2 = CGPoint(x: (pp2.x + p1.x)/2, y: (pp2.y + p1.y)/2)
+        }
+        
+        return controlPoints
+    }
+    
+    private func drawCurvedChartLines() {
+        let path = UIBezierPath()
+        path.lineWidth = lineWidth
+        path.lineCapStyle = lineCapStyle
+        
+        lineColor.setStroke()
+        
+        if yPoints.count > 0 {
+            let pointRadius = lineWidth
+            
+            let firstPoint = yPoints[0]
+            path.move(to: firstPoint)
+            drawPoint(withCenter: firstPoint, radius: pointRadius, inPath: path)
+            
+            
+            let controlPoints = controlPointsFrom(points: yPoints)
+            for i in 1 ..< yPoints.count {
+                let point = yPoints[i]
+                path.addCurve(to: point, controlPoint1: controlPoints[i-1].point1, controlPoint2: controlPoints[i-1].point2)
+                drawPoint(withCenter: point, radius: pointRadius, inPath: path)
+            }
+        }
+        
+        chartLineLayer.path = path.cgPath
+        
+        animate()
     }
 }
 
