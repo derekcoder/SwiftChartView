@@ -34,28 +34,28 @@ public class LineChartView: ChartView {
     @IBInspectable public var lineWidth: CGFloat = 2 {
         didSet {
             chartLineLayer.lineWidth = lineWidth
-            setNeedsDisplay()
+            strokeChart(animated: false)
         }
     }
-    public var lineCapStyle: CGLineCap = .round {
+    private var lineCapStyle: CGLineCap = .round {
         didSet {
             chartLineLayer.lineCap = lineCapStyle.kCAlineCap
-            setNeedsDisplay()
+            strokeChart(animated: false)
         }
     }
-    @IBInspectable public var lineColor: UIColor = .white {
+    @IBInspectable public var lineColor: UIColor = .black {
         didSet {
             chartLineLayer.strokeColor = lineColor.cgColor
-            setNeedsDisplay()
+            strokeChart(animated: false)
         }
     }
-    public var pointStyle: PointStyle = .none
-    public var isCurved: Bool = false { didSet { setNeedsDisplay() } }
+    public var pointStyle: PointStyle = .none { didSet { strokeChart(animated: false) } }
+    public var isCurved: Bool = false { didSet { strokeChart(animated: false) } }
     
     // MARK: - y Axis Attributes
-    @IBInspectable public var yMargin: CGFloat = 30 { didSet { setNeedsDisplay() } }
-    @IBInspectable public var yLabelFontSize: CGFloat = 12.0 { didSet { setNeedsDisplay() } }
-    @IBInspectable public var yAxisOffsets: CGFloat = 20 { didSet { setNeedsDisplay() } }
+    @IBInspectable public var yMargin: CGFloat = 30 { didSet { strokeChart(animated: false) } }
+    @IBInspectable public var yLabelFontSize: CGFloat = 12.0 { didSet { strokeChart(animated: false) } }
+    @IBInspectable public var yAxisOffsets: CGFloat = 20{ didSet { strokeChart(animated: false) } }
     public private (set) var maxValue: Double = 5.0
     public private (set) var minValue: Double = 0.0
     
@@ -65,27 +65,37 @@ public class LineChartView: ChartView {
     private var yStepPointValue: CGFloat { return (yAxisHeight - yMargin) / CGFloat(yLabelsCount) }
 
     // MARK: - x Axis Attributes
-    @IBInspectable public var xMargin: CGFloat = 30 { didSet { setNeedsDisplay() } }
-    @IBInspectable public var xLabelFontSize: CGFloat = 12.0 { didSet { setNeedsDisplay() } }
-    @IBInspectable public var xAxisOffsets: CGFloat = 20 { didSet { setNeedsDisplay() } }
+    @IBInspectable public var xMargin: CGFloat = 30 { didSet { strokeChart(animated: false) } }
+    @IBInspectable public var xLabelFontSize: CGFloat = 12.0{ didSet { strokeChart(animated: false) } }
+    @IBInspectable public var xAxisOffsets: CGFloat = 20 { didSet { strokeChart(animated: false) } }
     
     private var xAxisWidth: CGFloat { return bounds.size.width - yAxisOffsets }
     private var xStepPointValue: CGFloat { return (xAxisWidth - xMargin) / CGFloat(xLabels.count) }
     
     // MARK: - x & y Attributes
-    @IBInspectable public var axisColor: UIColor = .white { didSet { setNeedsDisplay() } }
+    @IBInspectable public var axisColor: UIColor = .black {
+        didSet {
+            backgroundLayer.strokeColor = axisColor.cgColor
+            strokeChart(animated: false)
+        }
+    }
     
     private var origin: CGPoint { return CGPoint(x: yAxisOffsets, y: yAxisHeight) }
     
     // MARK: - Layer
     private let backgroundLayer: CAShapeLayer = CAShapeLayer()
     private let chartLineLayer: CAShapeLayer = CAShapeLayer()
+    
+    // MARK: - Animation
+    @IBInspectable public var animationDuration: TimeInterval = 0
+    private var animated: Bool = false
 
-    public func strokeChart() {
+    public func strokeChart(animated: Bool) {
+        self.animated = animated
         setNeedsDisplay()
     }
     
-    override init(frame: CGRect) {
+    override public init(frame: CGRect) {
         super.init(frame: frame)
         setup()
     }
@@ -114,7 +124,11 @@ public class LineChartView: ChartView {
         let animation = CABasicAnimation(keyPath: "strokeEnd")
         animation.fromValue = 0
         animation.toValue = 1
-        animation.duration = 1.0
+        if animationDuration == 0 {
+            animation.duration = 0.1 * Double(xLabels.count)
+        } else {
+            animation.duration = animationDuration
+        }
         chartLineLayer.add(animation, forKey: "ChartLineAnimation")
     }
     
@@ -127,6 +141,8 @@ public class LineChartView: ChartView {
         } else {
             drawChartLines()
         }
+        
+        if animated { animate() }
     }
     
     private func drawChartLines() {
@@ -151,8 +167,6 @@ public class LineChartView: ChartView {
         }
         
         chartLineLayer.path = path.cgPath
-        
-        animate()
     }
 
     private func drawBackrgound() {
@@ -304,8 +318,6 @@ extension LineChartView {
         }
         
         chartLineLayer.path = path.cgPath
-        
-        animate()
     }
 }
 
