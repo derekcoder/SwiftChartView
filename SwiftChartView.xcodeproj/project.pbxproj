@@ -21,6 +21,8 @@
 		65AB21E41FA96B4000BF05BC /* LineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AB21E31FA96B4000BF05BC /* LineChartView.swift */; };
 		E33666C61FB3FEF90010C587 /* BarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33666C51FB3FEF90010C587 /* BarChartView.swift */; };
 		E33666C81FB405B60010C587 /* BarChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33666C71FB405B60010C587 /* BarChartViewController.swift */; };
+		E33666CA1FB42C1D0010C587 /* ScatterChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33666C91FB42C1D0010C587 /* ScatterChartView.swift */; };
+		E33666CC1FB42ECA0010C587 /* ScatterChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33666CB1FB42ECA0010C587 /* ScatterChartViewController.swift */; };
 		E3F9D0121FB2D6B8007E8213 /* ChartPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F9D0111FB2D6B8007E8213 /* ChartPoint.swift */; };
 		E3F9D0141FB316F8007E8213 /* demo.gif in Resources */ = {isa = PBXBuildFile; fileRef = E3F9D0131FB316F8007E8213 /* demo.gif */; };
 		E3F9D0161FB31B45007E8213 /* setclass.png in Resources */ = {isa = PBXBuildFile; fileRef = E3F9D0151FB31B45007E8213 /* setclass.png */; };
@@ -68,6 +70,8 @@
 		65AB21E31FA96B4000BF05BC /* LineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartView.swift; sourceTree = "<group>"; };
 		E33666C51FB3FEF90010C587 /* BarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartView.swift; sourceTree = "<group>"; };
 		E33666C71FB405B60010C587 /* BarChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartViewController.swift; sourceTree = "<group>"; };
+		E33666C91FB42C1D0010C587 /* ScatterChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScatterChartView.swift; sourceTree = "<group>"; };
+		E33666CB1FB42ECA0010C587 /* ScatterChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScatterChartViewController.swift; sourceTree = "<group>"; };
 		E3F9D0111FB2D6B8007E8213 /* ChartPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartPoint.swift; sourceTree = "<group>"; };
 		E3F9D0131FB316F8007E8213 /* demo.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = demo.gif; sourceTree = "<group>"; };
 		E3F9D0151FB31B45007E8213 /* setclass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = setclass.png; sourceTree = "<group>"; };
@@ -128,6 +132,7 @@
 				65AB21E01FA96A9900BF05BC /* Supporting Files */,
 				65AB21CC1FA96A3400BF05BC /* LineChartViewController.swift */,
 				E33666C71FB405B60010C587 /* BarChartViewController.swift */,
+				E33666CB1FB42ECA0010C587 /* ScatterChartViewController.swift */,
 				65AB21CE1FA96A3400BF05BC /* Main.storyboard */,
 			);
 			path = SwiftChartViewDemo;
@@ -140,6 +145,7 @@
 				65AB21E11FA96B0A00BF05BC /* ChartView.swift */,
 				65AB21E31FA96B4000BF05BC /* LineChartView.swift */,
 				E33666C51FB3FEF90010C587 /* BarChartView.swift */,
+				E33666C91FB42C1D0010C587 /* ScatterChartView.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -289,6 +295,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				65AB21E21FA96B0A00BF05BC /* ChartView.swift in Sources */,
+				E33666CA1FB42C1D0010C587 /* ScatterChartView.swift in Sources */,
 				E3F9D0121FB2D6B8007E8213 /* ChartPoint.swift in Sources */,
 				65AB21E41FA96B4000BF05BC /* LineChartView.swift in Sources */,
 				E33666C61FB3FEF90010C587 /* BarChartView.swift in Sources */,
@@ -299,6 +306,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E33666CC1FB42ECA0010C587 /* ScatterChartViewController.swift in Sources */,
 				65AB21CD1FA96A3400BF05BC /* LineChartViewController.swift in Sources */,
 				65AB21CB1FA96A3400BF05BC /* AppDelegate.swift in Sources */,
 				E33666C81FB405B60010C587 /* BarChartViewController.swift in Sources */,

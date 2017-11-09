@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreGraphics
 
 public class ChartView: UIView {
     public var chartPoints: [ChartPoint] = [] {
@@ -191,6 +192,16 @@ extension String {
         let size = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
         let rect = (self as NSString).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: [.font: font], context: nil)
         return rect.size
+    }
+}
+
+extension CGLineCap {
+    var kCAlineCap: String {
+        switch self {
+        case .butt: return kCALineCapButt
+        case .round: return kCALineCapRound
+        case .square: return kCALineCapSquare
+        }
     }
 }
 

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import QuartzCore
 
 public enum PointStyle {
     case none
@@ -185,16 +184,6 @@ extension LineChartView {
     
     private func drawCircle(withCenter center: CGPoint, radius: CGFloat, inPath path: UIBezierPath) {
         path.addArc(withCenter: center, radius: radius, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
-    }
-}
-
-extension CGLineCap {
-    var kCAlineCap: String {
-        switch self {
-        case .butt: return kCALineCapButt
-        case .round: return kCALineCapRound
-        case .square: return kCALineCapSquare
-        }
     }
 }
 
