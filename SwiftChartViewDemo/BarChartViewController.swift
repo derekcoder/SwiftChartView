@@ -1,17 +1,17 @@
 //
-//  ViewController.swift
+//  BarChartViewController.swift
 //  SwiftChartViewDemo
 //
-//  Created by ZHOU DENGFENG on 1/11/17.
+//  Created by Julie on 9/11/17.
 //  Copyright © 2017 ZHOU DENGFENG DEREK. All rights reserved.
 //
 
 import UIKit
 import SwiftChartView
 
-class ViewController: UIViewController {
+class BarChartViewController: UIViewController {
 
-    @IBOutlet weak var chartView: LineChartView!
+    @IBOutlet weak var chartView: BarChartView!
     
     private let values: [Double] = [49.5, 80.0, 70.8, 100.0, 43.0, 30.0, 60.0]
     private lazy var chartPoints: [ChartPoint] = {
@@ -32,20 +32,8 @@ class ViewController: UIViewController {
         chartView.strokeChart(animated: true)
     }
     
-    @IBAction func isCurvedChanged(_ sender: UISwitch) {
-        chartView.isCurved = sender.isOn
-    }
-    
     @IBAction func lineWidthChanged(_ sender: UISlider) {
         chartView.lineWidth = CGFloat(sender.value)
-    }
-    
-    @IBAction func pointStyleChanged(_ sender: UISegmentedControl) {
-        if sender.selectedSegmentIndex == 0 {
-            chartView.pointStyle = .none
-        } else if sender.selectedSegmentIndex == 1 {
-            chartView.pointStyle = .circle
-        }
     }
     
     @IBAction func tapLineColorButton(_ sender: UIButton) {
@@ -56,4 +44,3 @@ class ViewController: UIViewController {
         chartView.axisColor = sender.backgroundColor!
     }
 }
-
