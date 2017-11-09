@@ -10,9 +10,9 @@ A set of chart views written in Swift.
 ## Features
 
 - [x] Line Chart View
-- [ ] Bar Chart View
-- [ ] Pie Chart View
+- [x] Bar Chart View
 - [ ] Scatter Chart View
+- [ ] Pie Chart View
 
 ## Requirements
 
