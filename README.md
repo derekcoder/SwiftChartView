@@ -5,13 +5,15 @@
 
 A set of chart views written in Swift.
 
-<img src="https://github.com/derekcoder/SwiftChartView/blob/master/SwiftChartViewDemo/demo.gif">
+<img src="https://github.com/derekcoder/SwiftChartView/blob/master/SwiftChartViewDemo/line_demo.gif">
+<img src="https://github.com/derekcoder/SwiftChartView/blob/master/SwiftChartViewDemo/bar_demo.gif">
+<img src="https://github.com/derekcoder/SwiftChartView/blob/master/SwiftChartViewDemo/scatter_demo.gif">
 
 ## Features
 
 - [x] Line Chart View
 - [x] Bar Chart View
-- [ ] Scatter Chart View
+- [x] Scatter Chart View
 - [ ] Pie Chart View
 
 ## Requirements

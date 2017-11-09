@@ -23,8 +23,10 @@
 		E33666C81FB405B60010C587 /* BarChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33666C71FB405B60010C587 /* BarChartViewController.swift */; };
 		E33666CA1FB42C1D0010C587 /* ScatterChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33666C91FB42C1D0010C587 /* ScatterChartView.swift */; };
 		E33666CC1FB42ECA0010C587 /* ScatterChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33666CB1FB42ECA0010C587 /* ScatterChartViewController.swift */; };
+		E33666CE1FB44A810010C587 /* scatter_demo.gif in Resources */ = {isa = PBXBuildFile; fileRef = E33666CD1FB44A810010C587 /* scatter_demo.gif */; };
+		E33666D01FB44A860010C587 /* line_demo.gif in Resources */ = {isa = PBXBuildFile; fileRef = E33666CF1FB44A860010C587 /* line_demo.gif */; };
+		E33666D21FB44A8B0010C587 /* bar_demo.gif in Resources */ = {isa = PBXBuildFile; fileRef = E33666D11FB44A8B0010C587 /* bar_demo.gif */; };
 		E3F9D0121FB2D6B8007E8213 /* ChartPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F9D0111FB2D6B8007E8213 /* ChartPoint.swift */; };
-		E3F9D0141FB316F8007E8213 /* demo.gif in Resources */ = {isa = PBXBuildFile; fileRef = E3F9D0131FB316F8007E8213 /* demo.gif */; };
 		E3F9D0161FB31B45007E8213 /* setclass.png in Resources */ = {isa = PBXBuildFile; fileRef = E3F9D0151FB31B45007E8213 /* setclass.png */; };
 		E3F9D0181FB31B4C007E8213 /* attributes.png in Resources */ = {isa = PBXBuildFile; fileRef = E3F9D0171FB31B4C007E8213 /* attributes.png */; };
 /* End PBXBuildFile section */
@@ -72,8 +74,10 @@
 		E33666C71FB405B60010C587 /* BarChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartViewController.swift; sourceTree = "<group>"; };
 		E33666C91FB42C1D0010C587 /* ScatterChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScatterChartView.swift; sourceTree = "<group>"; };
 		E33666CB1FB42ECA0010C587 /* ScatterChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScatterChartViewController.swift; sourceTree = "<group>"; };
+		E33666CD1FB44A810010C587 /* scatter_demo.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = scatter_demo.gif; sourceTree = "<group>"; };
+		E33666CF1FB44A860010C587 /* line_demo.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = line_demo.gif; sourceTree = "<group>"; };
+		E33666D11FB44A8B0010C587 /* bar_demo.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = bar_demo.gif; sourceTree = "<group>"; };
 		E3F9D0111FB2D6B8007E8213 /* ChartPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartPoint.swift; sourceTree = "<group>"; };
-		E3F9D0131FB316F8007E8213 /* demo.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = demo.gif; sourceTree = "<group>"; };
 		E3F9D0151FB31B45007E8213 /* setclass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = setclass.png; sourceTree = "<group>"; };
 		E3F9D0171FB31B4C007E8213 /* attributes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attributes.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -153,10 +157,12 @@
 		65AB21E01FA96A9900BF05BC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E33666D11FB44A8B0010C587 /* bar_demo.gif */,
+				E33666CF1FB44A860010C587 /* line_demo.gif */,
+				E33666CD1FB44A810010C587 /* scatter_demo.gif */,
 				65AB21D11FA96A3400BF05BC /* Assets.xcassets */,
 				E3F9D0171FB31B4C007E8213 /* attributes.png */,
 				E3F9D0151FB31B45007E8213 /* setclass.png */,
-				E3F9D0131FB316F8007E8213 /* demo.gif */,
 				65AB21CA1FA96A3400BF05BC /* AppDelegate.swift */,
 				65AB21D61FA96A3400BF05BC /* Info.plist */,
 				65AB21D31FA96A3400BF05BC /* LaunchScreen.storyboard */,
@@ -279,10 +285,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				65AB21D51FA96A3400BF05BC /* LaunchScreen.storyboard in Resources */,
-				E3F9D0141FB316F8007E8213 /* demo.gif in Resources */,
 				E3F9D0161FB31B45007E8213 /* setclass.png in Resources */,
 				65AB21D21FA96A3400BF05BC /* Assets.xcassets in Resources */,
+				E33666CE1FB44A810010C587 /* scatter_demo.gif in Resources */,
+				E33666D01FB44A860010C587 /* line_demo.gif in Resources */,
 				E3F9D0181FB31B4C007E8213 /* attributes.png in Resources */,
+				E33666D21FB44A8B0010C587 /* bar_demo.gif in Resources */,
 				65AB21D01FA96A3400BF05BC /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
