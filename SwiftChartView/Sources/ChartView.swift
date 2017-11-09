@@ -9,6 +9,13 @@
 import UIKit
 import CoreGraphics
 
+public enum PointStyle {
+    case none
+    case circle
+    case square
+    case triangle
+}
+
 public class ChartView: UIView {
     public var chartPoints: [ChartPoint] = [] {
         didSet {

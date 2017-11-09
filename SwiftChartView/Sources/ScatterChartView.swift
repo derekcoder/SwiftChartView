@@ -10,7 +10,7 @@ import UIKit
 
 public class ScatterChartView: ChartView {
 
-    // MARK: - Chart Line Attributes
+    // MARK: - Chart Point Attributes
     @IBInspectable public var lineWidth: CGFloat = 12 {
         didSet {
             chartPointLayer.lineWidth = lineWidth
@@ -20,10 +20,11 @@ public class ScatterChartView: ChartView {
     @IBInspectable public var lineColor: UIColor = .black {
         didSet {
             chartPointLayer.fillColor = lineColor.cgColor
-            chartPointLayer.strokeColor = lineColor.cgColor
+//            chartPointLayer.strokeColor = lineColor.cgColor
             strokeChart(animated: false)
         }
     }
+    public var pointStyle: PointStyle = .none { didSet { strokeChart(animated: false) } }
 
     // MARK: - Layer
     private let chartPointLayer: CAShapeLayer = CAShapeLayer()
@@ -41,7 +42,7 @@ public class ScatterChartView: ChartView {
     
     private func setup() {
         chartPointLayer.fillColor = lineColor.cgColor
-        chartPointLayer.strokeColor = lineColor.cgColor
+        chartPointLayer.strokeColor = UIColor.clear.cgColor
         chartPointLayer.backgroundColor = UIColor.clear.cgColor
 //        chartBarLayer.lineCap = CA.kCAlineCap
 //        chartPointLayer.lineWidth = lineWidth
@@ -71,14 +72,19 @@ public class ScatterChartView: ChartView {
     private func drawChartPoints() {
         let path = UIBezierPath()
         
-        lineColor.setStroke()
+//        lineColor.setStroke()
         lineColor.setFill()
         
         if yPoints.count > 0 {
             for i in 0 ..< yPoints.count {
                 let point = yPoints[i]
                 path.move(to: point)
-                drawSquarePath(withCenter: point, radius: lineWidth/2, inPath: path)
+                switch pointStyle {
+                case .none: fallthrough
+                case .circle: drawCirclePath(withCenter: point, radius: lineWidth/2, inPath: path)
+                case .square: drawSquarePath(withCenter: point, radius: lineWidth/2, inPath: path)
+                case .triangle: drawTrianglePath(withCenter: point, radius: lineWidth/2, inPath: path)
+                }
             }
         }
         
@@ -98,10 +104,9 @@ public class ScatterChartView: ChartView {
     }
     
     private func drawTrianglePath(withCenter center: CGPoint, radius: CGFloat, inPath path: UIBezierPath) {
-        path.move(to: CGPoint(x: center.x - radius / 2, y: center.y - radius / 2))
-        path.addLine(to: CGPoint(x: center.x + radius / 2, y: center.y - radius / 2))
+        path.move(to: CGPoint(x: center.x, y: center.y - radius / 2))
         path.addLine(to: CGPoint(x: center.x + radius / 2, y: center.y + radius / 2))
         path.addLine(to: CGPoint(x: center.x - radius / 2, y: center.y + radius / 2))
-        path.addLine(to: CGPoint(x: center.x - radius / 2, y: center.y - radius / 2))
+        path.addLine(to: CGPoint(x: center.x, y: center.y - radius / 2))
     }
 }

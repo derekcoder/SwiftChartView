@@ -35,6 +35,16 @@ class ScatterChartViewController: UIViewController {
         chartView.lineWidth = CGFloat(sender.value)
     }
     
+    @IBAction func pointStyleChanged(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0 {
+            chartView.pointStyle = .circle
+        } else if sender.selectedSegmentIndex == 1 {
+            chartView.pointStyle = .square
+        } else if sender.selectedSegmentIndex == 2 {
+            chartView.pointStyle = .triangle
+        }
+    }
+    
     @IBAction func tapLineColorButton(_ sender: UIButton) {
         chartView.lineColor = sender.backgroundColor!
     }

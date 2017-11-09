@@ -8,11 +8,6 @@
 
 import UIKit
 
-public enum PointStyle {
-    case none
-    case circle
-}
-
 @IBDesignable
 public class LineChartView: ChartView {
     
@@ -178,6 +173,8 @@ extension LineChartView {
         switch pointStyle {
         case .none: break
         case .circle: drawCircle(withCenter: center, radius: radius, inPath: path)
+        case .square: break
+        case .triangle: break
         }
         path.move(to: center)
     }
