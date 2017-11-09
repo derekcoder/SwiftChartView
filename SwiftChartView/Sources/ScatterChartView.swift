@@ -78,7 +78,7 @@ public class ScatterChartView: ChartView {
             for i in 0 ..< yPoints.count {
                 let point = yPoints[i]
                 path.move(to: point)
-                drawCirclePath(withCenter: point, radius: lineWidth/2, inPath: path)
+                drawSquarePath(withCenter: point, radius: lineWidth/2, inPath: path)
             }
         }
         
@@ -87,5 +87,21 @@ public class ScatterChartView: ChartView {
     
     private func drawCirclePath(withCenter center: CGPoint, radius: CGFloat, inPath path: UIBezierPath) {
         path.addArc(withCenter: center, radius: radius, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
+    }
+    
+    private func drawSquarePath(withCenter center: CGPoint, radius: CGFloat, inPath path: UIBezierPath) {
+        path.move(to: CGPoint(x: center.x - radius / 2, y: center.y - radius / 2))
+        path.addLine(to: CGPoint(x: center.x + radius / 2, y: center.y - radius / 2))
+        path.addLine(to: CGPoint(x: center.x + radius / 2, y: center.y + radius / 2))
+        path.addLine(to: CGPoint(x: center.x - radius / 2, y: center.y + radius / 2))
+        path.addLine(to: CGPoint(x: center.x - radius / 2, y: center.y - radius / 2))
+    }
+    
+    private func drawTrianglePath(withCenter center: CGPoint, radius: CGFloat, inPath path: UIBezierPath) {
+        path.move(to: CGPoint(x: center.x - radius / 2, y: center.y - radius / 2))
+        path.addLine(to: CGPoint(x: center.x + radius / 2, y: center.y - radius / 2))
+        path.addLine(to: CGPoint(x: center.x + radius / 2, y: center.y + radius / 2))
+        path.addLine(to: CGPoint(x: center.x - radius / 2, y: center.y + radius / 2))
+        path.addLine(to: CGPoint(x: center.x - radius / 2, y: center.y - radius / 2))
     }
 }
