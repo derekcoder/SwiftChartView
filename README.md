@@ -7,6 +7,13 @@ A set of chart views written in Swift.
 
 <img src="https://github.com/derekcoder/SwiftChartView/blob/master/SwiftChartViewDemo/demo.gif">
 
+## Features
+
+- [x] Line Chart View
+- [ ] Bar Chart View
+- [ ] Pie Chart View
+- [ ] Scatter Chart View
+
 ## Requirements
 
 - iOS 10.0+
